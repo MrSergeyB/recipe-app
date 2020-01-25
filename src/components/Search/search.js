@@ -1,0 +1,50 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+
+class Search extends Component {
+  state = {
+    text: ""
+  };
+
+  static propTypes = {
+    searchRecipes: PropTypes.func.isRequired,
+    setAlert: PropTypes.func.isRequired
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    if (this.state.text === "") {
+      this.props.setAlert("Please enter something", "light");
+    } else {
+      this.props.searchRecipes(this.state.text);
+      this.setState({ text: "" });
+    }
+  };
+
+  onChange = e => {
+    this.setState({ text: e.target.value });
+  };
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.onSubmit} className="form">
+          <input
+            type="text"
+            name="text"
+            placeholder="Search Recipes"
+            value={this.state.text}
+            onChange={this.onChange}
+          />
+          <input
+            type="submit"
+            value="Search"
+            className="btn btn-dark btn-block"
+          />
+        </form>
+      </div>
+    );
+  }
+}
+
+export default Search;
