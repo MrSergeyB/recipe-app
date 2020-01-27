@@ -10,18 +10,18 @@ const Recipes = ({ recipes, loading }) => {
   } else {
     return (
       <div className="recipesStyle">
-        {recipes.map(recipe => (
-          <div className="text-center recipe">
+        {recipes.map(rec => (
+          <div key={rec.id} className="text-center recipe">
             <h2>
-              {recipe.recipe.label.length < 20
-                ? `${recipe.recipe.label}`
-                : `${recipe.recipe.label.substring(0, 25)}...`}
+              {rec.recipe.label.length < 20
+                ? `${rec.recipe.label}`
+                : `${rec.recipe.label.substring(0, 25)}...`}
             </h2>
-            <img src={recipe.recipe.image} alt="" className="recipeImage" />
+            <img src={rec.recipe.image} alt="" className="recipeImage" />
             <div>
               <Link
                 to={{
-                  pathname: `/recipe/${recipe.recipe.label}`
+                  pathname: `/recipe/${rec.recipe.label}`
                 }}
                 className="btn btn-dark btn-sm my-1"
               >
