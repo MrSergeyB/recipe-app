@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Recipes from "./components/Recipes";
@@ -9,12 +9,10 @@ import Recipe from "./components/Recipe";
 import axios from "axios";
 import "./App.css";
 
-class App extends Component {
-  state = {
-    recipes: [],
-    loading: false,
-    alert: null
-  };
+const App = () => {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   // async componentDidMount() {
   //   this.setState({ loading: true });
@@ -26,52 +24,47 @@ class App extends Component {
   //   this.setState({ recipes: res.data.hits, loading: false });
   // }
 
-  searchRecipes = async text => {
-    this.setState({ loading: true });
+  const searchRecipes = async text => {
+    setLoading(true);
     const res = await axios.get(
       `https://api.edamam.com/search?q=${text}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
     );
 
-    this.setState({ recipes: res.data.hits, loading: false });
+    setRecipes(res.data.hits);
+    setLoading(false);
   };
 
   //Set Alert
-  setAlert = (msg, type) => {
-    this.setState({ alert: { msg: msg, type: type } });
-    setTimeout(() => this.setState({ alert: null }), 5000);
+  const showAlert = (msg, type) => {
+    setAlert({ msg: msg, type: type });
+    setTimeout(() => setAlert(null), 5000);
   };
 
-  render() {
-    const { recipes, loading, alert } = this.state;
-    return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <div className="container">
-            <Alert alert={alert} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <Fragment>
-                    <Search
-                      searchRecipes={this.searchRecipes}
-                      setAlert={this.setAlert}
-                    />
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          <Alert alert={alert} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Fragment>
+                  <Search searchRecipes={searchRecipes} setAlert={showAlert} />
 
-                    <Recipes loading={loading} recipes={recipes} />
-                  </Fragment>
-                )}
-              />
-              <Route path="/about" component={About} />
-              <Route path="/recipe/:id" component={Recipe} />
-            </Switch>
-          </div>
+                  <Recipes loading={loading} recipes={recipes} />
+                </Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+            <Route path="/recipe/:id" component={Recipe} />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
-}
+      </div>
+    </Router>
+  );
+};
 
 export default App;

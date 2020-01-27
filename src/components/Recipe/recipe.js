@@ -1,55 +1,53 @@
-import React, { Component, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import Spinner from "../Spinner/spinner";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
 import "./recipe.css";
 
-export default class Recipe extends Component {
-  state = {
-    activeRecipe: null,
-    loading: false
-  };
+const Recipe = ({ match }) => {
+  const [activeRecipe, setActiveRecipe] = useState(null);
 
-  componentDidMount = async () => {
-    const recipeReq = this.props.match.params.id;
-    const req = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${recipeReq}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
-    );
+  useEffect(() => {
+    const recipeReq = match.params.id;
 
-    this.setState({ activeRecipe: req.data.hits[0].recipe, loading: false });
-  };
+    const fetchData = async () => {
+      const req = await axios.get(
+        `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${recipeReq}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
+      );
+      setActiveRecipe(req.data.hits[0].recipe);
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  static propTypes = {
-    loading: PropTypes.bool
-  };
+  console.log(activeRecipe);
 
-  render() {
-    console.log(this.state.activeRecipe);
-
-    const content = this.state.activeRecipe ? (
+  const content = activeRecipe ? (
+    <Fragment>
+      <h2 className="text-center">{activeRecipe.label}</h2>
+      <div className="card grid-2 all-center">
+        <img src={activeRecipe.image} alt={activeRecipe.label} />
+        <ul>
+          {activeRecipe.ingredientLines.map(lines => (
+            <li>{lines}</li>
+          ))}
+        </ul>
+      </div>
       <Fragment>
-        <h2 className="text-center">{this.state.activeRecipe.label}</h2>
-        <div className="card grid-2 all-center">
-          <img
-            src={this.state.activeRecipe.image}
-            alt={this.state.activeRecipe.label}
-          />
-          <ul>
-            {this.state.activeRecipe.ingredientLines.map(lines => (
-              <li>{lines}</li>
-            ))}
-          </ul>
-        </div>
-        <Fragment>
-          <Link to="/" className="btn btn-light">
-            Back to Search
-          </Link>
-        </Fragment>
+        <Link to="/" className="btn btn-light">
+          Back to Search
+        </Link>
       </Fragment>
-    ) : (
-      <Spinner />
-    );
-    return <div>{content}</div>;
-  }
-}
+    </Fragment>
+  ) : (
+    <Spinner />
+  );
+  return <div>{content}</div>;
+};
+
+export default Recipe;
+
+Recipe.propTypes = {
+  loading: PropTypes.bool
+};
