@@ -7,6 +7,7 @@ import Alert from "./components/Alert";
 import About from "./components/About";
 import Recipe from "./components/Recipe";
 import axios from "axios";
+import RecipeState from "./components/context/recipeContext/recipeState";
 import "./App.css";
 
 const App = () => {
@@ -24,15 +25,7 @@ const App = () => {
   //   this.setState({ recipes: res.data.hits, loading: false });
   // }
 
-  const searchRecipes = async text => {
-    setLoading(true);
-    const res = await axios.get(
-      `https://api.edamam.com/search?q=${text}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
-    );
-
-    setRecipes(res.data.hits);
-    setLoading(false);
-  };
+  
 
   //Set Alert
   const showAlert = (msg, type) => {
@@ -41,29 +34,34 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => (
-                <Fragment>
-                  <Search searchRecipes={searchRecipes} setAlert={showAlert} />
+    <RecipeState>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <Fragment>
+                    <Search
+      
+                      setAlert={showAlert}
+                    />
 
-                  <Recipes loading={loading} recipes={recipes} />
-                </Fragment>
-              )}
-            />
-            <Route path="/about" component={About} />
-            <Route path="/recipe/:id" component={Recipe} />
-          </Switch>
+                    <Recipes loading={loading} recipes={recipes} />
+                  </Fragment>
+                )}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/recipe/:id" component={Recipe} />
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </RecipeState>
   );
 };
 

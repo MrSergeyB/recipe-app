@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
+import RecipeContext from "../../components/context/recipeContext/recipeContext";
 
-const Search = ({ searchRecipes, setAlert }) => {
+const Search = ({ setAlert }) => {
+  const recipeContext = useContext(RecipeContext);
   const [text, setText] = useState("");
 
   const onSubmit = e => {
@@ -9,7 +11,7 @@ const Search = ({ searchRecipes, setAlert }) => {
     if (text === "") {
       setAlert("Please enter something", "light");
     } else {
-      searchRecipes(text);
+      recipeContext.searchRecipes(text);
       setText("");
     }
   };
@@ -39,7 +41,6 @@ const Search = ({ searchRecipes, setAlert }) => {
 };
 
 Search.propTypes = {
-  searchRecipes: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired
 };
 

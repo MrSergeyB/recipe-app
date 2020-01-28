@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Spinner from "../Spinner";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import RecipeContext from "../../components/context/recipeContext/recipeContext";
 import "./recipes.css";
 
-const Recipes = ({ recipes, loading }) => {
+const Recipes = () => {
+  const recipeContext = useContext(RecipeContext);
+  const { loading, recipes } = recipeContext;
+
   if (loading) {
     return <Spinner />;
   } else {
@@ -33,11 +37,6 @@ const Recipes = ({ recipes, loading }) => {
       </div>
     );
   }
-};
-
-Recipes.propTypes = {
-  recipes: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired
 };
 
 export default Recipes;

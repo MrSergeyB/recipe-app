@@ -4,19 +4,26 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="navbar bg-primary">
-      <h2>
-        <i className="fas fa-hamburger" />
-        Recipy App
-      </h2>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-      </ul>
+    <nav className="navbar navbar-expand-sm bg-warning">
+      <div className="container">
+        <h3>
+          <i className="fas fa-hamburger" />
+          Recipy App
+        </h3>
+
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };
