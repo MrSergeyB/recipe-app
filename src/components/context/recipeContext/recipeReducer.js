@@ -1,6 +1,7 @@
-import { SEARCH_RECIPES, SET_ALERT, SET_LOADING, REMOVE_ALERT } from "../types";
+import { SEARCH_RECIPES, GET_RECIPE, SET_LOADING } from "../types";
 
 export default (state, action) => {
+  
   switch (action.type) {
     case SEARCH_RECIPES:
       return {
@@ -8,6 +9,13 @@ export default (state, action) => {
         recipes: action.payload,
         loading: false
       };
+    case GET_RECIPE:
+      return {
+        ...state,
+        recipe: action.payload,
+        loading: false
+      };
+
     case SET_LOADING:
       return {
         ...state,

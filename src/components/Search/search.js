@@ -1,15 +1,19 @@
 import React, { useState, useContext } from "react";
-import PropTypes from "prop-types";
-import RecipeContext from "../../components/context/recipeContext/recipeContext";
+import RecipeContext from "../context/recipeContext/recipeContext";
+import AlertContext from "../context/alertContext/alertContext";
 
-const Search = ({ setAlert }) => {
+const Search = () => {
   const recipeContext = useContext(RecipeContext);
+  const alertContext = useContext(AlertContext);
   const [text, setText] = useState("");
 
   const onSubmit = e => {
     e.preventDefault();
     if (text === "") {
-      setAlert("Please enter something", "light");
+      alertContext.setAlert(
+        "Oops! Enter a recipe or ingridient to search for.",
+        "danger"
+      );
     } else {
       recipeContext.searchRecipes(text);
       setText("");
@@ -22,26 +26,23 @@ const Search = ({ setAlert }) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit} className="form">
+      <form onSubmit={onSubmit} className="form-group">
         <input
+          className="form-control mt-1 mb-1"
           type="text"
           name="text"
-          placeholder="Search Recipes"
+          placeholder="Find a recipe"
           value={text}
           onChange={onChange}
         />
         <input
           type="submit"
           value="Search"
-          className="btn btn-dark btn-block"
+          className="btn btn-outline-primary btn-block"
         />
       </form>
     </div>
   );
-};
-
-Search.propTypes = {
-  setAlert: PropTypes.func.isRequired
 };
 
 export default Search;

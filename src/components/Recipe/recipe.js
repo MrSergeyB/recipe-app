@@ -1,53 +1,46 @@
-import React, { useEffect, useState, Fragment } from "react";
-import Spinner from "../Spinner/spinner";
+import React, { useEffect, Fragment, useContext } from "react";
+import Spinner from "../spinner/spinner";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import axios from "axios";
+import RecipeContext from "../context/recipeContext/recipeContext";
 import "./recipe.css";
 
 const Recipe = ({ match }) => {
-  const [activeRecipe, setActiveRecipe] = useState(null);
+  const recipeContext = useContext(RecipeContext);
+  const { getRecipe, loading, recipe } = recipeContext;
 
   useEffect(() => {
-    const recipeReq = match.params.id;
+    console.log("lalal" + match.params.id);
+    getRecipe(match.params.id);
 
-    const fetchData = async () => {
-      const req = await axios.get(
-        `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${recipeReq}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
-      );
-      setActiveRecipe(req.data.hits[0].recipe);
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
-  console.log(activeRecipe);
+  console.log(recipe);
 
-  const content = activeRecipe ? (
+  if (loading) return <Spinner />;
+
+  const content = recipe ? (
     <Fragment>
-      <h2 className="text-center">{activeRecipe.label}</h2>
+      <h2 className="text-center">{recipe.label}</h2>
       <div className="card grid-2 all-center">
-        <img src={activeRecipe.image} alt={activeRecipe.label} />
+        <img src={recipe.image} alt={recipe.label} className="img-fluid" />
         <ul>
-          {activeRecipe.ingredientLines.map(lines => (
+          {recipe.ingredientLines.map(lines => (
             <li>{lines}</li>
           ))}
         </ul>
-      </div>
-      <Fragment>
         <Link to="/" className="btn btn-light">
           Back to Search
         </Link>
-      </Fragment>
+      </div>
     </Fragment>
   ) : (
-    <Spinner />
+    <div>
+      <Spinner />
+    </div>
   );
+
   return <div>{content}</div>;
 };
 
 export default Recipe;
-
-Recipe.propTypes = {
-  loading: PropTypes.bool
-};
