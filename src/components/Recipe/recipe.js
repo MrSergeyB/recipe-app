@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import Spinner from "../spinner/spinner";
 import { Link } from "react-router-dom";
 import RecipeContext from "../context/recipeContext/recipeContext";
@@ -9,8 +9,7 @@ const Recipe = ({ match }) => {
   const { getRecipe, loading, recipe } = recipeContext;
 
   useEffect(() => {
-    console.log("lalal" + match.params.id);
-    getRecipe(match.params.id);
+    getRecipe(match.params.label);
 
     // eslint-disable-next-line
   }, []);
@@ -20,10 +19,10 @@ const Recipe = ({ match }) => {
   if (loading) return <Spinner />;
 
   const content = recipe ? (
-    <Fragment>
+    <div className="container">
       <h2 className="text-center">{recipe.label}</h2>
       <div className="card grid-2 all-center">
-        <img src={recipe.image} alt={recipe.label} className="img-fluid" />
+        <img src={recipe.image} alt={recipe.label} className="" />
         <ul>
           {recipe.ingredientLines.map(lines => (
             <li>{lines}</li>
@@ -33,7 +32,7 @@ const Recipe = ({ match }) => {
           Back to Search
         </Link>
       </div>
-    </Fragment>
+    </div>
   ) : (
     <div>
       <Spinner />

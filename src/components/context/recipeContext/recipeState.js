@@ -10,6 +10,17 @@ import {
   REMOVE_ALERT
 } from "../types";
 
+let recipeAppId;
+let recipeAppSecret;
+
+if (process.env.NODE_ENV !== "production") {
+  recipeAppId = process.env.REACT_APP_RECIPE_CLIENT_ID;
+  recipeAppSecret = process.env.REACT_APP_RECIPE_CLIENT_SECRET;
+} else {
+  recipeAppId = process.env.APP_RECIPE_CLIENT_ID;
+  recipeAppSecret = process.env.APP_RECIPE_CLIENT_SECRET;
+}
+
 const RecipeState = props => {
   const initialState = {
     recipe: null,
@@ -23,7 +34,7 @@ const RecipeState = props => {
   const searchRecipes = async text => {
     setLoading();
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${text}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
+      `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${text}&app_id=${recipeAppId}&app_key=${recipeAppSecret}`
     );
     dispatch({
       type: SEARCH_RECIPES,
@@ -37,7 +48,7 @@ const RecipeState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${recipeName}&app_id=${process.env.REACT_APP_EMAMA_APP_ID}&app_key=${process.env.REACT_APP_EMAMA_APP_KEY}`
+      `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${recipeName}&app_id=${recipeAppId}&app_key=${recipeAppSecret}`
     );
     dispatch({
       type: GET_RECIPE,
