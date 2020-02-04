@@ -7,10 +7,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-sm bg-warning">
       <div className="container">
-        <h3 className="text-light ">
+        <h2 className="text-light ">
           <i className="fas fa-hamburger mr-1" />
-          Recipy App
-        </h3>
+          Recipe App
+        </h2>
 
         <ul className="navbar-nav text-dark">
           <li className="nav-item">

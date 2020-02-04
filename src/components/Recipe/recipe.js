@@ -19,18 +19,25 @@ const Recipe = ({ match }) => {
   if (loading) return <Spinner />;
 
   const content = recipe ? (
-    <div className="container">
-      <h2 className="text-center">{recipe.label}</h2>
+    <div className="div">
+      <h2 className="card-title text-center">{recipe.label}</h2>
       <div className="card grid-2 all-center">
-        <img src={recipe.image} alt={recipe.label} className="" />
-        <ul>
-          {recipe.ingredientLines.map(lines => (
-            <li>{lines}</li>
-          ))}
-        </ul>
-        <Link to="/" className="btn btn-light">
-          Back to Search
-        </Link>
+        <img
+          src={recipe.image}
+          alt={recipe.label}
+          className="card-image-top singleRecipeImage"
+        />
+        <div className="card-body">
+          <h3>Ingredients:</h3>
+          <ul className="card-text">
+            {recipe.ingredientLines.map(lines => (
+              <li key={lines}>{lines}</li>
+            ))}
+          </ul>
+          <Link to="/" className="btn btn-outline-primary">
+            Back to Search
+          </Link>
+        </div>
       </div>
     </div>
   ) : (

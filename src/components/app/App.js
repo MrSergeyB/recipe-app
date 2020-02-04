@@ -1,6 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "../navbar";
+import Footer from "../footer";
 import NotFound from "../not-found/notfound";
 import Home from "../home/home";
 import Alert from "../alert";
@@ -28,6 +29,7 @@ const App = () => {
               </Switch>
             </div>
           </div>
+          <Footer />
         </Router>
       </AlertState>
     </RecipeState>

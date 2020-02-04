@@ -2,24 +2,10 @@ import React, { useReducer } from "react";
 import axios from "axios";
 import RecipeContext from "./recipeContext";
 import RecipeReducer from "./recipeReducer";
-import {
-  SEARCH_RECIPES,
-  SET_ALERT,
-  GET_RECIPE,
-  SET_LOADING,
-  REMOVE_ALERT
-} from "../types";
+import { SEARCH_RECIPES, GET_RECIPE, SET_LOADING } from "../types";
 
-let recipeAppId;
-let recipeAppSecret;
-
-if (process.env.NODE_ENV !== "production") {
-  recipeAppId = process.env.REACT_APP_RECIPE_CLIENT_ID;
-  recipeAppSecret = process.env.REACT_APP_RECIPE_CLIENT_SECRET;
-} else {
-  recipeAppId = process.env.APP_RECIPE_CLIENT_ID;
-  recipeAppSecret = process.env.APP_RECIPE_CLIENT_SECRET;
-}
+const recipeAppId = process.env.REACT_APP_RECIPE_CLIENT_ID;
+const recipeAppSecret = process.env.REACT_APP_RECIPE_CLIENT_SECRET;
 
 const RecipeState = props => {
   const initialState = {

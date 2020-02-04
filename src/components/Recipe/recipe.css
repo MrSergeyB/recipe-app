@@ -1,12 +1,10 @@
-.recipeImage {
-  border-radius: 50%;
-  width: 259px;
-  height: 259px;
+.singleRecipeImage {
+  width: 100%;
+  height: auto;
 }
 
-.recipe {
-  border-radius: 10px;
-  box-shadow: 0px 5px 20px rgb(71, 71, 71);
-  margin: 10px;
-  background: #fff;
+.div {
+  width: 500px;
+  height: 400px;
+  margin: auto;
 }
